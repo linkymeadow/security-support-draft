@@ -87,7 +87,7 @@ function layout({ title, route, body, file = '', date = '', noindex = false }) {
     '<link rel="stylesheet" href="' + h(prefix) + '/assets/site.css">',
     '</head><body id="top"><a class="skip-link" href="#main-content">본문으로 바로가기</a>',
     '<header class="site-header"><div class="header-inner"><a class="brand" href="' + h(prefix) + '/">' + siteTitle + '</a>',
-    '<nav class="header-links" aria-label="참여"><a href="' + repository + '">GitHub</a><a href="' + repository + '/discussions">의견 나누기</a></nav></div></header>',
+    '<nav class="header-links" aria-label="참여"><a href="' + repository + '" target="_blank" rel="noopener noreferrer" aria-label="GitHub (새 탭)">GitHub</a><a href="' + repository + '/discussions" target="_blank" rel="noopener noreferrer" aria-label="의견 나누기 (새 탭)">의견 나누기</a></nav></div></header>',
     '<div class="page-shell"><aside class="sidebar">' + nav + '</aside><main id="main-content" class="content' + (file === 'README.md' ? ' home' : '') + '">',
     '<details class="mobile-menu"><summary>문서 목차</summary>' + nav + '</details>',
     date ? '<div class="document-meta"><time datetime="' + h(date) + '">수정 ' + h(date.replaceAll('-', '.')) + '</time></div>' : '',
