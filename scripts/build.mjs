@@ -71,7 +71,6 @@ function navigation(current) {
 function layout({ title, route, body, file = '', date = '', noindex = false }) {
   const canonical = canonicalRoot + route;
   const nav = navigation(file);
-  const sourceUrl = repository + '/blob/main/' + file;
   return [
     '<!doctype html><html lang="ko"><head><meta charset="utf-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -91,11 +90,10 @@ function layout({ title, route, body, file = '', date = '', noindex = false }) {
     '<nav class="header-links" aria-label="참여"><a href="' + repository + '">GitHub</a><a href="' + repository + '/discussions">의견 나누기</a></nav></div></header>',
     '<div class="page-shell"><aside class="sidebar">' + nav + '</aside><main id="main-content" class="content' + (file === 'README.md' ? ' home' : '') + '">',
     '<details class="mobile-menu"><summary>문서 목차</summary>' + nav + '</details>',
-    '<div class="document-meta"><span class="draft-label">제안 초안</span>' + (date ? '<time datetime="' + h(date) + '">수정 ' + h(date.replaceAll('-', '.')) + '</time>' : '') + '</div>',
+    date ? '<div class="document-meta"><time datetime="' + h(date) + '">수정 ' + h(date.replaceAll('-', '.')) + '</time></div>' : '',
     file !== 'README.md' && !noindex ? '<p class="draft-description">' + draftText + '</p>' : '',
     '<article class="prose">' + body + '</article>',
-    file ? '<div class="document-actions"><a href="' + h(sourceUrl) + '">GitHub에서 원문 보기</a><a href="' + repository + '/edit/main/' + h(file) + '">수정 제안</a><a href="#top">맨 위로</a></div>' : '',
-    '</main></div><footer class="site-footer"><div class="footer-inner"><p>내용의 정확성·완전성·최신성이나 적용 결과를 보증하지 않습니다.</p><a href="' + h(prefix) + '/#보증-부인">보증 부인</a></div></footer>',
+    '</main></div>',
     '</body></html>\n',
   ].join('\n');
 }
