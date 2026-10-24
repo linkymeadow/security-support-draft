@@ -100,6 +100,40 @@ a:hover {
   color: var(--muted);
 }
 
+.site-footer {
+  border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 16px 20px;
+}
+
+.footer-qr,
+.footer-qr img {
+  display: block;
+  width: 99px;
+  height: 99px;
+  background: #ffffff;
+}
+
+.footer-qr {
+  flex: 0 0 99px;
+}
+
+.qr-copy-status {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .page-shell {
   display: grid;
   grid-template-columns: 244px minmax(0, 1fr);
@@ -391,7 +425,8 @@ a:hover {
 
 @media (max-width: 600px) {
   .header-inner,
-  .page-shell {
+  .page-shell,
+  .footer-inner {
     padding-inline: 16px;
   }
 

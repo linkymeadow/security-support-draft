@@ -76,7 +76,7 @@ function layout({ title, route, body, file = '', date = '', noindex = false }) {
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     '<meta name="color-scheme" content="light dark">',
     '<meta name="referrer" content="strict-origin-when-cross-origin">',
-    '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; style-src &#39;self&#39;; img-src &#39;self&#39; https: http:; base-uri &#39;none&#39;; form-action &#39;none&#39;">',
+    '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39;; style-src &#39;self&#39;; img-src &#39;self&#39; https: http:; base-uri &#39;none&#39;; form-action &#39;none&#39;">',
     '<title>' + h(title === siteTitle ? title : title + ' · ' + siteTitle) + '</title>',
     '<meta name="description" content="' + h(draftText) + '">',
     noindex ? '<meta name="robots" content="noindex, follow">' : '',
@@ -85,6 +85,7 @@ function layout({ title, route, body, file = '', date = '', noindex = false }) {
     '<meta property="og:title" content="' + h(title) + '"><meta property="og:description" content="' + h(draftText) + '">',
     '<meta property="og:url" content="' + h(canonical) + '">',
     '<link rel="stylesheet" href="' + h(prefix) + '/assets/site.css">',
+    '<script src="' + h(prefix) + '/assets/qr-copy.js" defer></script>',
     '</head><body id="top"><a class="skip-link" href="#main-content">본문으로 바로가기</a>',
     '<header class="site-header"><div class="header-inner"><a class="brand" href="' + h(prefix) + '/">' + siteTitle + '</a>',
     '<nav class="header-links" aria-label="참여"><a href="' + repository + '" target="_blank" rel="noopener noreferrer" aria-label="GitHub (새 탭)">GitHub</a><a href="' + repository + '/discussions" target="_blank" rel="noopener noreferrer" aria-label="의견 나누기 (새 탭)">의견 나누기</a></nav></div></header>',
@@ -94,6 +95,7 @@ function layout({ title, route, body, file = '', date = '', noindex = false }) {
     file !== 'README.md' && !noindex ? '<p class="draft-description">' + draftText + '</p>' : '',
     '<article class="prose">' + body + '</article>',
     '</main></div>',
+    '<footer class="site-footer"><div class="footer-inner"><p class="qr-copy-status" id="qr-copy-status" role="status"></p><a class="footer-qr" href="https://qlnk.cc/vzl" title="주소 복사: https://qlnk.cc/vzl" aria-label="단축 주소 복사: https://qlnk.cc/vzl"><img src="' + h(prefix) + '/assets/site-qr.svg" width="99" height="99" alt="보안 지침에 대한 제안 QR 코드"></a></div></footer>',
     '</body></html>\n',
   ].join('\n');
 }
@@ -129,6 +131,8 @@ for (const [file, html] of output) {
   await fs.writeFile(destination, html, 'utf8');
 }
 await fs.copyFile(path.join(siteRoot, 'assets/site.css'), path.join(outDir, 'assets/site.css'));
+await fs.copyFile(path.join(siteRoot, 'assets/site-qr.svg'), path.join(outDir, 'assets/site-qr.svg'));
+await fs.copyFile(path.join(siteRoot, 'assets/qr-copy.js'), path.join(outDir, 'assets/qr-copy.js'));
 await fs.writeFile(path.join(outDir, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: ' + canonicalRoot + '/sitemap.xml\n');
 await fs.writeFile(path.join(outDir, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + documents.map((doc) => '<url><loc>' + h(canonicalRoot + doc.route) + '</loc>' + (doc.date ? '<lastmod>' + doc.date + '</lastmod>' : '') + '</url>').join('\n') + '\n</urlset>\n');
 await fs.writeFile(path.join(outDir, '.nojekyll'), '');
